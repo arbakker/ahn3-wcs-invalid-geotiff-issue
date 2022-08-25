@@ -4,138 +4,26 @@ services:
     tty: true
     ports:
       - "80:80"
-    image: pdok/mapserver:7.6.4-buster-lighttpd
+    image: docker.io/pdok/mapserver:7.6.4-patch5-buster-lighttpd-nl
     volumes:
-      - ./data:/srv/data:rw
+      - ./data:/srv/data
+      - ./service.map:/srv/service.map
     environment:
-      MS_MAPFILE: /srv/service.map
-      MAPFILE: |
-        MAP
-          NAME                  "Actueel Hoogtebestand Nederland 3"
-          CONFIG                "MS_ERRORFILE" "stderr"
-          IMAGETYPE             png
-          EXTENT                231620 580897 235620 584897
-          UNITS                 meters
-          MAXSIZE               4000
-          STATUS                ON
-          DEBUG                 5
-
-          WEB
-            METADATA
-              "ows_enable_request"               "*"
-              "ows_fees"                         "NONE"
-              "ows_contactorganization"          "PDOK"
-              "ows_schemas_location"             "http://schemas.opengis.net"
-              "ows_service_onlineresource"       "https://service.pdok.nl"
-              "ows_contactperson"                "KlantContactCenter PDOK"
-              "ows_contactposition"              "pointOfContact"
-              "ows_contactvoicetelephone"        ""
-              "ows_contactfacsimiletelephone"    ""
-              "ows_addresstype"                  "Work"
-              "ows_address"                      ""
-              "ows_city"                         "Apeldoorn"
-              "ows_stateorprovince"              ""
-              "ows_postcode"                     ""
-              "ows_country"                      "Nederland"
-              "ows_contactelectronicmailaddress" "BeheerPDOK@kadaster.nl"
-              "ows_hoursofservice"               ""
-              "ows_contactinstructions"          "https://www.pdok.nl/contact"
-              "ows_role"                         ""
-              "ows_srs"                          "EPSG:28992 EPSG:25831 EPSG:25832 EPSG:3034 EPSG:3035 EPSG:3857 EPSG:4258 EPSG:4326 CRS:84"
-              "ows_accessconstraints"            "otherRestrictions; Geen beperkingen; http://creativecommons.org/publicdomain/zero/1.0/deed.nl"
-            END # METADATA
-          END # WEB
-
-          RESOLUTION 96
-          DEFRESOLUTION 96
-
-          PROJECTION
-            "init=epsg:28992"
-          END
-
-          OUTPUTFORMAT
-            NAME          "GEOTIFF_FLOAT32"
-            DRIVER        "GDAL/GTiff"
-            MIMETYPE      "image/tiff"
-            IMAGEMODE     FLOAT32
-            EXTENSION     "tif"
-            FORMATOPTION  "NULLVALUE=3.402823466385289e+38"
-            FORMATOPTION  "COMPRESS=DEFLATE"
-            FORMATOPTION  "PREDICTOR=3"
-            FORMATOPTION  "RESAMPLING=bilinear"
-          END # OUTPUTFORMAT
-
-          WEB
-            IMAGEPATH   "/srv/data/"
-            IMAGEURL    "/srv/data/"
-            METADATA
-              "ows_title"                       "Actueel Hoogtebestand Nederland 3"
-              "wcs_label"                       "Actueel Hoogtebestand Nederland 3"
-              "wcs_name"                        "Actueel Hoogtebestand Nederland 3"
-
-              "ows_abstract"                    "Web Coverage Service (WCS) van het Actueel Hoogtebestand Nederland 3 (AHN3) waarin de volgende lagen zijn opgenomen: AHN3 0,5 meter DTM (maaiveld raster), AHN3 5 meter DTM (maaiveld raster, niet opgevuld), AHN3 5 meter DSM , AHN3 0,5 meter DSM. NB: bij features met een oorspronkelijke nodata waarde komt de waarde overeen met -32768.0. Meer informatie: https://www.pdok.nl/nl/ahn3-downloads Een overzicht van de inwinjaren voor AHN3 staat op: https://www.ahn.nl/historie"
-              "wcs_description"                 "Web Coverage Service (WCS) van het Actueel Hoogtebestand Nederland 3 (AHN3) waarin de volgende lagen zijn opgenomen: AHN3 0,5 meter DTM (maaiveld raster), AHN3 5 meter DTM (maaiveld raster, niet opgevuld), AHN3 5 meter DSM , AHN3 0,5 meter DSM. NB: bij features met een oorspronkelijke nodata waarde komt de waarde overeen met -32768.0. Meer informatie: https://www.pdok.nl/nl/ahn3-downloads - een overzicht van de inwinjaren voor AHN3 staat op: https://www.ahn.nl/historie"
-
-              "wcs_fees"                        "NONE"
-              "wcs_keywordlist"                 "fysische geografie,hoogte,klimaat,ruimtelijke ordening,transport,water,elevation,infocoverageaccessservice,hoogte"
-              "wcs_metadatalink_type"           "TC211"
-              "wcs_metadatalink_format"         "application/vnd.ogc.csw.GetRecordByIdResponse_xml"
-              "wcs_metadatalink_href"           "https://www.nationaalgeoregister.nl/geonetwork/srv/dut/csw-inspire?service=CSW&request=GetRecordById&version=2.0.2&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=full&ID=bfcc588f-9393-4c70-b989-d9e92ac2f493"
-
-              "wcs_onlineresource"              "http://localhost"
-              "ows_inspire_capabilities"        "url"
-              "ows_languages"                   "dut"
-              "ows_inspire_dsid_code"           "41daef8b-155e-4608-b49c-c87ea45d931c"
-              "ows_inspire_dsid_ns"             "http://rws.nl/"
-              "ows_inspire_metadataurl_format"  "application/vnd.ogc.csw.GetRecordByIdResponse_xml"
-              "ows_inspire_metadataurl_href"    "https://www.nationaalgeoregister.nl/geonetwork/srv/dut/csw-inspire?service=CSW&request=GetRecordById&version=2.0.2&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=full&ID=bfcc588f-9393-4c70-b989-d9e92ac2f493"
-            END # METADATA
-          END # WEB
-
-          LAYER
-            NAME ahn3_5m_dtm
-            METADATA
-              "wcs_name"            "ahn3_5m_dtm"
-              "wcs_label"           "5m Digital Terrain Model (DTM)" # label describecoverage/1.0.0
-              "wcs_description"     "5m Digital Terrain Model (DTM)" # title describecoverage/1.1.0, description describecoverage/1.0.0 - N.B. description en label zijn gelijk in describecoverage/1.1.0 lijkt bug in mapserver te zijn
-              "wcs_abstract"        "Het AHN3 DTM is bedoeld als maaiveldbestand, waarbij alle punten geclassificeerd als \"maaiveld\" tot een raster zijn herbemonsterd op basis van een Squared IDW methode. Punten geclassificeerd in een andere klasse (niet-maaiveld objecten als bomen, gebouwen, bruggen, water en andere objecten) zijn niet gebruikt in de herbemonstering. Er zijn geen verdere bewerkingen uitgevoerd."  # abstract describecoverage/1.1.0
-
-              "wcs_srs"	            "EPSG:28992"
-              "wcs_extent"          "231620 580897 235620 584897"
-              "wcs_resolution"      "5 5"
-
-              "wcs_rangeset_name"   "5m Digital Terrain Model (DTM)"  ### required to support DescribeCoverage request
-              "wcs_rangeset_label"  "ahn3_5m_dtm"  ### required to support DescribeCoverage request
-
-              "wcs_formats"         "GEOTIFF_FLOAT32"
-              "wcs_imagemode"       "FLOAT32"
-              "wcs_bandcount"       "1"
-              "wcs_band_names"      "hoogte"
-              "wcs_significant_figures"   "1"
-              "hoogte_band_uom"            "m"
-              "hoogte_band_definition"     "https://www.rijkswaterstaat.nl/zakelijk/open-data/normaal-amsterdams-peil"
-              "hoogte_band_description"    "hoogte t.o.v Normaal Amsterdams Peil (NAP) in meter"
-              "hoogte_interval"            "-8 322"
-
-            END # METADATA
-            TYPE RASTER
-            STATUS ON
-            DATA /srv/data/data.tif 
-            PROCESSING "RESAMPLE=BILINEAR"
-            PROJECTION
-              "init=epsg:28992"
-            END # PROJECTION
-          END # LAYER
-        END # MAP
+      MS_MAPFILE: "/srv/service.map"
+      CPL_VSIL_CURL_CHUNK_SIZE: "1048576"
+      GDAL_INGESTED_BYTES_AT_OPEN: "32768"
+      CPL_VSIL_CURL_CACHE_SIZE: "1887436800"
+      GDAL_CACHEMAX: "1800"
     command: >
-      /bin/bash -c "echo \"$${MAPFILE}\" > /srv/service.map && lighttpd -D -f /lighttpd.conf"
-  example-requests:
+      /bin/bash -c "lighttpd -D -f /lighttpd.conf"
+  do-requests:
     tty: true
     depends_on:
       - wcs
     image: pdok/multitool:latest
     volumes:
-      - ./data:/srv/data:rw
+      - ./do-getcov-req.sh:/scripts/do-getcov-req.sh
+      - ./split-multipart.sh:/scripts/split-multipart.sh
       - ./output-data:/srv/output-data:rw
     command: >
-      /bin/bash -cx "/srv/data/example-getcoverage-requests.sh http://wcs /srv/output-data"
+      /bin/bash -c "/scripts/do-getcov-req.sh http://wcs"
