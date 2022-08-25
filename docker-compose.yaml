@@ -10,10 +10,6 @@ services:
       - ./service.map:/srv/service.map
     environment:
       MS_MAPFILE: "/srv/service.map"
-      CPL_VSIL_CURL_CHUNK_SIZE: "1048576"
-      GDAL_INGESTED_BYTES_AT_OPEN: "32768"
-      CPL_VSIL_CURL_CACHE_SIZE: "1887436800"
-      GDAL_CACHEMAX: "1800"
     command: >
       /bin/bash -c "lighttpd -D -f /lighttpd.conf"
   do-requests:
