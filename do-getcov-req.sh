@@ -25,8 +25,8 @@ output_cog_file=$(mktemp --suffix=.cog.tif)
 echo "> downloading tif from ${local_url} to ${output_tif_file}"
 curl -s $local_url -o $output_tif_file
 cp "$output_tif_file" "$OUTPUT_DIR/${RUN_TYPE}_output_100.tif"
-gdal_translate -r bilinear -of COG -co COMPRESS=DEFLATE $output_tif_file $output_cog_file > /dev/null
-echo "> v1 wcs request - succesfully converted tif to cog with gdal_translate: ${output_cog_file}"
+gdal_translate -r bilinear -co COMPRESS=DEFLATE $output_tif_file /dev/null > /dev/null
+echo "> v1 wcs request - succesfully converted tif to cog with gdal_translate"
 
 
 # v2
@@ -38,5 +38,5 @@ output_cog_file=$(mktemp --suffix=.cog.tif)
 echo "> downloading tif from ${local_url} to ${output_tif_file}"
 curl -s $local_url | "${SCRIPT_DIR}/split-multipart.sh" - $output_tif_file
 cp "$output_tif_file" "$OUTPUT_DIR/${RUN_TYPE}_output_201.tif"
-gdal_translate -r bilinear -of COG -co COMPRESS=DEFLATE $output_tif_file $output_cog_file > /dev/null
-echo "> v2 wcs request - succesfully converted tif to cog with gdal_translate: ${output_cog_file}"
+gdal_translate -r bilinear -co COMPRESS=DEFLATE $output_tif_file /dev/null > /dev/null
+echo "> v2 wcs request - succesfully converted tif to cog with gdal_translate"
