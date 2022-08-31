@@ -3,10 +3,6 @@ MAP
     CONFIG                "MS_ERRORFILE" "stderr"
     CONFIG                "CPL_DEBUG" "ON"
     CONFIG                "CPL_TIMESTAMP" "ON"
-    CONFIG                "GDAL_CACHEMAX" "1000"
-    CONFIG                "CPL_VSIL_CURL_CHUNK_SIZE" "1048576"
-    CONFIG                "GDAL_INGESTED_BYTES_AT_OPEN" "32768"
-    CONFIG                "CPL_VSIL_CURL_CACHE_SIZE" "1887436800"
     IMAGETYPE             png
     EXTENT                231620 580897 235620 584897
     UNITS                 meters

@@ -7,9 +7,9 @@ services:
     image: docker.io/pdok/mapserver:7.6.4-patch5-buster-lighttpd-nl
     volumes:
       - ./data:/srv/data
-      - ./service.map:/srv/service.map
+      - ./service.map:/etc/service.map
     environment:
-      MS_MAPFILE: "/srv/service.map"
+      MS_MAPFILE: "/etc/service.map"
     command: >
       /bin/bash -c "lighttpd -D -f /lighttpd.conf"
   do-requests:
