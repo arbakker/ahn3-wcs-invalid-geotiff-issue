@@ -9,7 +9,7 @@ docker stop "$CONTAINER_NAME" &> /dev/null
 set -euo pipefail
 
 if [[ $IMAGE == "PDOK" ]];then
-    VERSION=7.6.4-patch5-buster-lighttpd-nl - ISSUE OCCURS
+    VERSION=7.6.4-patch5-buster-lighttpd-nl #- ISSUE OCCURS
     # VERSION=7.6.4-lighttpd - ISSUE OCCURS
     # VERSION=7.6.1-lighttpd - ISSUE OCCURS
     # VERSION=7.4-lighttpd - ISSUE OCCURS
