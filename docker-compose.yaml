@@ -21,5 +21,6 @@ services:
       - ./do-getcov-req.sh:/scripts/do-getcov-req.sh
       - ./split-multipart.sh:/scripts/split-multipart.sh
       - ./output-data:/srv/output-data:rw
+      - ./data:/srv/data
     command: >
-      /bin/bash -c "/scripts/do-getcov-req.sh http://wcs"
+      /bin/bash -c "/scripts/do-getcov-req.sh /srv/data docker-compose http://wcs"
