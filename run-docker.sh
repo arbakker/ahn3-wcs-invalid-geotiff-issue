@@ -9,12 +9,10 @@ docker stop "$CONTAINER_NAME" &> /dev/null
 set -euo pipefail
 
 if [[ $IMAGE == "PDOK" ]];then
-    # VERSION=7.6.4-patch5-buster-lighttpd-nl - ISSUE OCCURS
+    VERSION=7.6.4-patch5-buster-lighttpd-nl - ISSUE OCCURS
     # VERSION=7.6.4-lighttpd - ISSUE OCCURS
     # VERSION=7.6.1-lighttpd - ISSUE OCCURS
     # VERSION=7.4-lighttpd - ISSUE OCCURS
-    echo "PDOK image"
-    VERSION=test-gdal-ubuntu-20-04-8-0
     docker run \
         --rm \
         -d \
@@ -23,8 +21,7 @@ if [[ $IMAGE == "PDOK" ]];then
         --name $CONTAINER_NAME \
         -v `pwd`:/srv \
         -v `pwd`/service.map:/etc/service.map \
-        mapserver-lvb:test
-        # pdok/mapserver:$VERSION > /dev/null
+        pdok/mapserver:$VERSION > /dev/null
 else
     # run with camptocamp/mapserver
     VERSION=7.6
@@ -37,8 +34,6 @@ else
         -v `pwd`/service.map:/etc/mapserver/mapserver.map \
         camptocamp/mapserver:$VERSION > /dev/null
 fi
-
-
 
 if [[ $? -ne 0 ]];then
     echo "failed to run mapserver docker container"
