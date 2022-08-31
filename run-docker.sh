@@ -2,17 +2,15 @@
 
 SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 IMAGE=${1:-PDOK}
-
 CONTAINER_NAME=mapserver-wcs-issue
+
+source $SCRIPT_DIR/docker-image.sh # LOAD DOCKER_IMAGE env var
+
 docker stop "$CONTAINER_NAME" &> /dev/null
 
 set -euo pipefail
 
 if [[ $IMAGE == "PDOK" ]];then
-    VERSION=7.6.4-patch5-buster-lighttpd-nl #- ISSUE OCCURS
-    # VERSION=7.6.4-lighttpd - ISSUE OCCURS
-    # VERSION=7.6.1-lighttpd - ISSUE OCCURS
-    # VERSION=7.4-lighttpd - ISSUE OCCURS
     docker run \
         --rm \
         -d \
@@ -21,7 +19,7 @@ if [[ $IMAGE == "PDOK" ]];then
         --name $CONTAINER_NAME \
         -v `pwd`:/srv \
         -v `pwd`/service.map:/etc/service.map \
-        docker.io/pdok/mapserver:7.6.4-patch5-buster-lighttpd-nl > /dev/null
+        $DOCKER_IMAGE > /dev/null
 else
     # run with camptocamp/mapserver
     VERSION=7.6

@@ -3,6 +3,7 @@ MAP
     CONFIG                "MS_ERRORFILE" "stderr"
     CONFIG                "CPL_DEBUG" "ON"
     CONFIG                "CPL_TIMESTAMP" "ON"
+    # CONFIG                "GDAL_PAM_ENABLED" "NO"
     IMAGETYPE             png
     EXTENT                231620 580897 235620 584897
     UNITS                 meters
@@ -49,7 +50,7 @@ MAP
       MIMETYPE      "image/tiff"
       IMAGEMODE     FLOAT32
       EXTENSION     "tif"
-        FORMATOPTION  "NULLVALUE=3.402823466385289e+38"
+      FORMATOPTION  "NULLVALUE=3.402823466385289e+38"
       FORMATOPTION  "COMPRESS=DEFLATE"
       FORMATOPTION  "PREDICTOR=3"
       FORMATOPTION  "RESAMPLING=bilinear"

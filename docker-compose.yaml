@@ -4,7 +4,7 @@ services:
     tty: true
     ports:
       - "80:80"
-    image: docker.io/pdok/mapserver:7.6.4-patch5-buster-lighttpd-nl
+    image: "${DOCKER_IMAGE}"
     volumes:
       - ./data:/srv/data
       - ./service.map:/etc/service.map
