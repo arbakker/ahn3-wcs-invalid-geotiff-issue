@@ -28,4 +28,4 @@ echo
 local_url="${SERVICE_URL}?${query_v2}"
 echo "$local_url"
 content_type=$(curl -s -w "%{content_type}" $local_url -o /dev/null)
-echo "> v1 wcs request - response content-type: ${content_type}"
+echo "> v2 wcs request - response content-type: ${content_type}"
