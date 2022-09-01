@@ -54,24 +54,21 @@ function get_seperator(){
     echo "$result"
 }
 
-
+# hacky approach to split multipart response from mapserver wcs 2.0.1 getcoverage response
 function split_multipart_file(){
     local input_file="$1"
     local output_file="$2"
     sep=$(get_seperator $input_file)
     sep=$(sed 's|-|\\-|g' <<< $sep) # escape seperator to prevent interpreting as cli flag
-    
-      end_tif=$(tac "$input_file" | \
-        grep -n --text  "$sep" | \
-        tail -n +2 | \
-        head -n1 | \
-        cut -d: -f1) # start searching from end for second separator to find end of tif response
-    start_tif=$(cat "$input_file" | grep -n --text  "$sep" | head -n1 | cut -d: -f1) # search for first occurence separator
+    end_tif=$(tac "$input_file" | \
+    grep -n --text  "$sep" | \
+    tail -n +2 | \
+    head -n1 | \
+    cut -d: -f1) # start searching from end for second separator to find end of tif response - note use of tac
+    start_tif=$(cat "$input_file" | grep -n --text  "$sep" | head -n1 | cut -d: -f1) # search from beginning for first occurence separator
     start_tif=$((start_tif + 7)) # add 7 to account for response headers in multipart response
-    echo end_tif $end_tif
-    echo start_tif $start_tif
-
-    head -n "-${end_tif}" "$input_file" | tail -n "+${start_tif}" > "$output_file"
+    head -n "-${end_tif}" "$input_file" | tail -n "+${start_tif}" > "$output_file" # extract tif bytes by extracting lines from $start_tif to $end_tif 
+    echo "geotiff written to ${output_file}"
 }
 
 

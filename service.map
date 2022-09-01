@@ -50,6 +50,7 @@ MAP
       MIMETYPE      "image/tiff"
       IMAGEMODE     FLOAT32
       EXTENSION     "tif"
+      # FORMATOPTION  "NULLVALUE=3.402823466+38" # uncomment and comment next line to fix multipart response
       FORMATOPTION  "NULLVALUE=3.402823466385289e+38"
       FORMATOPTION  "COMPRESS=DEFLATE"
       FORMATOPTION  "PREDICTOR=3"

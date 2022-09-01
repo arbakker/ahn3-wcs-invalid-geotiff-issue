@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
-OUTPUT_DIR="${1}"
-RUN_TYPE="${2}"
-SERVICE_URL="${3}"
-COVERAGE_ID="${4:-ahn3_5m_dtm}"
+SERVICE_URL="${1}"
+COVERAGE_ID="${2:-ahn3_5m_dtm}"
 
 bbox=231620,580897,235620,584897
 
@@ -20,26 +17,15 @@ query_v1="SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&FORMAT=GEOTIFF_FLOAT32&C
 echo "#### WCS V1 ####"
 echo 
 local_url="${SERVICE_URL}?${query_v1}"
-output_tif_file=$(mktemp --suffix=.tif)
-output_cog_file=$(mktemp --suffix=.cog.tif)
-echo "> downloading tif from ${local_url} to ${output_tif_file}"
-curl -s $local_url -o $output_tif_file
-cp "$output_tif_file" "$OUTPUT_DIR/${RUN_TYPE}_output_100.tif"
-gdal_translate -r bilinear -co COMPRESS=DEFLATE $output_tif_file $output_cog_file > /dev/null
-echo "> v1 wcs request - succesfully converted tif to cog with gdal_translate: ${output_cog_file}"
-
+echo "$local_url"
+content_type=$(curl -s -w "%{content_type}" $local_url -o /dev/null)
+echo "> v1 wcs request - response content-type: ${content_type}"
+echo
 
 # v2
 echo "#### WCS V2 ####"
 echo 
 local_url="${SERVICE_URL}?${query_v2}"
-output_multipart_file=$(mktemp --suffix=.multipart)
-output_tif_file=$(mktemp --suffix=.tif)
-output_cog_file=$(mktemp --suffix=.cog.tif)
-echo "> downloading tif from ${local_url} to ${output_multipart_file}"
-curl -s $local_url -o $output_multipart_file
-
-$SCRIPT_DIR/split-multipart.sh $output_multipart_file "$output_tif_file"
-cp "$output_tif_file" "$OUTPUT_DIR/${RUN_TYPE}_output_201.tif"
-gdal_translate -r bilinear -co COMPRESS=DEFLATE $output_tif_file $output_cog_file > /dev/null
-echo "> v2 wcs request - succesfully converted tif to cog with gdal_translate: ${output_cog_file}"
+echo "$local_url"
+content_type=$(curl -s -w "%{content_type}" $local_url -o /dev/null)
+echo "> v1 wcs request - response content-type: ${content_type}"
